@@ -82,6 +82,12 @@ return {
         desc = "Send selection to terminal",
         mode = { "v" },
       },
+      {
+        "<leader>vb",
+        "<cmd>ToggleTerm direction=horizontal dir=%:p:h<cr>",
+        desc = "Toggle terminal in buffer directory",
+        mode = { "n", "v" },
+      },
     },
   },
 }
