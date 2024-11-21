@@ -1,10 +1,3 @@
-local function toggleterm(cmd)
-  -- include count as that is used as the terminal number
-  return function()
-    vim.cmd(vim.v.count1 .. cmd)
-  end
-end
-
 return {
   {
     "akinsho/toggleterm.nvim",
@@ -46,6 +39,12 @@ return {
         desc = "Move to right window",
         mode = { "t" },
       },
+      {
+        "<C-w>",
+        "<C-\\><C-n><C-w>",
+        desc = "Window navigation",
+        mode = { "t" },
+      },
 
       -- Plugin
       {
@@ -55,39 +54,39 @@ return {
       },
       {
         "<leader>vv",
-        toggleterm("ToggleTerm direction=horizontal"),
+        "<cmd>ToggleTerm direction=horizontal<cr>",
         desc = "Toggle terminal horizontal",
         mode = { "n", "v" },
       },
       {
-        "<leader>vb",
-        toggleterm("ToggleTerm direction=horizontal dir=%:p:h"),
-        desc = "Toggle terminal in buffer directory",
-        mode = { "n", "v" },
-      },
-      {
         "<leader>vt",
-        toggleterm("ToggleTerm direction=tab"),
+        "<cmd>ToggleTerm direction=tab<cr>",
         desc = "Toggle terminal in tab",
         mode = { "n", "v" },
       },
       {
         "<leader>vl",
-        toggleterm("ToggleTermSendCurrentLine"),
+        "<cmd>ToggleTermSendCurrentLine<cr>",
         desc = "Send current line to terminal",
         mode = { "n" },
       },
       {
         "<leader>vl",
-        toggleterm("ToggleTermSendVisualLines"),
+        "<cmd>ToggleTermSendVisualLines<cr>",
         desc = "Send selected lines to terminal",
         mode = { "v" },
       },
       {
         "<leader>vs",
-        toggleterm("ToggleTermSendVisualSelection"),
+        "<cmd>ToggleTermSendVisualSelection<cr>",
         desc = "Send selection to terminal",
         mode = { "v" },
+      },
+      {
+        "<leader>vb",
+        "<cmd>ToggleTerm direction=horizontal dir=%:p:h<cr>",
+        desc = "Toggle terminal in buffer directory",
+        mode = { "n", "v" },
       },
     },
   },

@@ -15,39 +15,36 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  spec = {
-    -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- import/override with your plugins
-    { import = "plugins" },
+  -- Specify the plugins here
+  {
+    "LazyVim/LazyVim", -- LazyVim plugin
+    import = "lazyvim.plugins", -- Import LazyVim's predefined plugins
   },
+  {
+    import = "plugins", -- Import your custom plugins
+  },
+}, {
   defaults = {
-    -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
-    -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
-    lazy = false,
-    -- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
-    -- have outdated releases, which may break your Neovim install.
-    version = false, -- always use the latest git commit
-    -- version = "*", -- try installing the latest stable version for plugins that support semver
+    lazy = false, -- Load plugins during startup by default
+    version = false, -- Use the latest commit for plugins, avoid version locking
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { "tokyonight", "habamax" } }, -- Install these colorschemes by default
   checker = {
-    enabled = true, -- check for plugin updates periodically
-    notify = false, -- notify on update
-  }, -- automatically check for plugin updates
+    enabled = true, -- Enable automatic plugin update checking
+    notify = false, -- Do not notify on updates
+  },
   performance = {
     rtp = {
-      -- disable some rtp plugins
       disabled_plugins = {
-        "gzip",
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
+        "gzip", -- Disable unnecessary runtime plugins
         "tarPlugin",
         "tohtml",
         "tutor",
         "zipPlugin",
       },
     },
+  },
+  rocks = {
+    hererocks = true, -- If you don't have Lua 5.1 globally installed, use hererocks
   },
 })
