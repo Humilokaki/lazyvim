@@ -47,4 +47,11 @@ require("lazy").setup({
   rocks = {
     hererocks = true, -- If you don't have Lua 5.1 globally installed, use hererocks
   },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    opts = {
+      ensure_installed = { "markdown", "markdown_inline", "lua", "vim", "vimdoc", "query" },
+    },
+  },
 })

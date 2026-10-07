@@ -1,3 +1,5 @@
+-- ~/.config/nvim/lua/plugins/jupyter-notebook.lua
+
 -- Provide a command to create a blank new Python notebook
 -- note: the metadata is needed for Jupytext to understand how to parse the notebook.
 -- if you use another language than Python, you should change it in the template.
@@ -61,49 +63,50 @@ return {
     build = ":UpdateRemotePlugins",
     init = function()
       vim.g.molten_output_win_max_height = 20
-      -- I find auto open annoying, keep in mind setting this option will require setting
-      -- a keybind for `:noautocmd MoltenEnterOutput` to open the output again
+      -- auto open is annoying; setting this to false requires a keybind for
+      -- `:noautocmd MoltenEnterOutput` to open the output again
       vim.g.molten_auto_open_output = false
 
-      -- this guide will be using image.nvim
-      -- Don't forget to setup and install the plugin if you want to view image outputs
+      -- use image.nvim to display image outputs
       vim.g.molten_image_provider = "image.nvim"
 
-      -- optional, I like wrapping. works for virt text and the output window
+      -- wrapping works for virt text and the output window
       vim.g.molten_wrap_output = true
 
-      -- Output as virtual text. Allows outputs to always be shown, works with images, but can
-      -- be buggy with longer images
+      -- Output as virtual text. Outputs are always shown and images work,
+      -- but it can be buggy with longer images
       vim.g.molten_virt_text_output = true
 
-      -- this will make it so the output shows up below the \`\`\` cell delimiter
+      -- the output shows up below the ``` cell delimiter
       vim.g.molten_virt_lines_off_by_1 = true
     end,
   },
   {
-    "GCBallesteros/jupytext.vim",
-    config = true,
-    opts = {
-      style = "markdown",
-      output_extension = "md",
-      force_ft = "markdown",
-    },
+    "GCBallesteros/jupytext.nvim",
+    -- explicit config: the plugin's Lua module is `jupytext`
+    config = function()
+      require("jupytext").setup({
+        style = "markdown",
+        output_extension = "md",
+        force_ft = "markdown",
+      })
+    end,
   },
   {
     -- see the image.nvim readme for more information about configuring this plugin
     "3rd/image.nvim",
     opts = {
-      backend = "kitty", -- whatever backend you would like to use
+      backend = "kitty", -- needs a terminal supporting the kitty graphics protocol
       max_width = 200,
       max_height = 24,
       max_height_window_percentage = math.huge,
       max_width_window_percentage = math.huge,
       window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
       window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-    },
-    integration = {
-      typst = {
-        enabled = false, -- Disable typst integration
+      integrations = {
+        typst = {
+          enabled = false, -- Disable typst integration
+        },
       },
     },
   },

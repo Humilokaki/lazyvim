@@ -1,55 +1,63 @@
 -- ~/.config/nvim/lua/plugins/treesitter.lua
 return {
-  "nvim-treesitter/nvim-treesitter",
-  config = function()
-    require("nvim-treesitter.configs").setup({
-      ensure_installed = { "c", "cpp", "python", "lua" }, -- Install all maintained parsers
-      sync_install = false, -- Install parsers synchronously (only applied to `ensure_installed`)
-      ignore_install = { "javascript" }, -- List of parsers to ignore installing
-      auto_install = true, -- Automatically install missing parsers when entering buffer
-
-      highlight = {
-        enable = true, -- false will disable the whole extension
-        additional_vim_regex_highlighting = false,
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "c", "cpp", "python", "lua", "markdown", "markdown_inline" },
+    },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    keys = {
+      -- select
+      {
+        "ib",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@code_cell.inner", "textobjects")
+        end,
+        mode = { "x", "o" },
+        desc = "in block",
       },
-
-      textobjects = {
-        move = {
-          enable = true,
-          set_jumps = false, -- you can change this if you want.
-          goto_next_start = {
-            --- ... other keymaps
-            ["]b"] = { query = "@code_cell.inner", desc = "next code block" },
-          },
-          goto_previous_start = {
-            --- ... other keymaps
-            ["[b"] = { query = "@code_cell.inner", desc = "previous code block" },
-          },
-        },
-        select = {
-          enable = true,
-          lookahead = true, -- you can change this if you want
-          keymaps = {
-            --- ... other keymaps
-            ["ib"] = { query = "@code_cell.inner", desc = "in block" },
-            ["ab"] = { query = "@code_cell.outer", desc = "around block" },
-          },
-        },
-        swap = { -- Swap only works with code blocks that are under the same
-          -- markdown header
-          enable = true,
-          swap_next = {
-            --- ... other keymap
-            ["<leader>sbl"] = "@code_cell.outer",
-          },
-          swap_previous = {
-            --- ... other keymap
-            ["<leader>sbh"] = "@code_cell.outer",
-          },
-        },
+      {
+        "ab",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@code_cell.outer", "textobjects")
+        end,
+        mode = { "x", "o" },
+        desc = "around block",
       },
-
-      modules = {}, -- Add this line to include the modules field
-    })
-  end,
+      -- move
+      {
+        "]b",
+        function()
+          require("nvim-treesitter-textobjects.move").goto_next_start("@code_cell.inner", "textobjects")
+        end,
+        mode = { "n", "x", "o" },
+        desc = "next code block",
+      },
+      {
+        "[b",
+        function()
+          require("nvim-treesitter-textobjects.move").goto_previous_start("@code_cell.inner", "textobjects")
+        end,
+        mode = { "n", "x", "o" },
+        desc = "previous code block",
+      },
+      -- swap
+      {
+        "<leader>sbl",
+        function()
+          require("nvim-treesitter-textobjects.swap").swap_next("@code_cell.outer")
+        end,
+        desc = "swap block next",
+      },
+      {
+        "<leader>sbh",
+        function()
+          require("nvim-treesitter-textobjects.swap").swap_previous("@code_cell.outer")
+        end,
+        desc = "swap block previous",
+      },
+    },
+  },
 }
