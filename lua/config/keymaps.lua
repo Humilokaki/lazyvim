@@ -49,3 +49,7 @@ vim.keymap.set(
   "<cmd>:lua require('pdfview.renderer').previous_page()<CR>",
   { desc = "PDFview: Previous page" }
 )
+
+-- Move buffer inside window
+vim.keymap.set("n", "<A-h>", "<cmd>BufferLineMovePrev<cr>", { desc = "Move buffer to the left" })
+vim.keymap.set("n", "<A-l>", "<cmd>BufferLineMoveNext<cr>", { desc = "Move buffer to the right" })
